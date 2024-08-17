@@ -1,38 +1,121 @@
-.App {
-  text-align: center;
+/* 전체 레이아웃 */
+.app {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* 왼쪽 채팅 방 리스트 */
+.chat-list {
+  width: 250px;
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-right: 1px solid #ccc;
+  overflow-y: auto;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.chat-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.chat-list li {
+  padding: 10px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #ccc;
+  transition: background-color 0.2s ease;
+}
+
+.chat-list li:hover {
+  background-color: #e0e0e0;
+}
+
+.chat-list button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.chat-list button:hover {
+  background-color: #0056b3;
+}
+
+/* 채팅 윈도우 */
+.chat-container {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  background-color: #fff;
+  padding: 20px;
+}
+
+.chat-window {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 20px;
+  margin-bottom: 20px;
+}
+
+.message {
+  margin-bottom: 15px;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+.message.input {
+  align-self: flex-end;
+  text-align: right;
+  background-color: #e0f7fa;
+  padding: 10px 15px;
+  border-radius: 10px;
+}
+
+.message.output {
+  align-self: flex-start;
+  text-align: left;
+  background-color: #f1f8e9;
+  padding: 10px 15px;
+  border-radius: 10px;
+}
+
+/* 메시지 입력 필드 */
+.message-input {
+  display: flex;
+  border-top: 1px solid #ccc;
+  padding: 10px;
+}
+
+.message-input input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.message-input input:focus {
+  border-color: #007bff;
+}
+
+.message-input button {
+  padding: 10px 20px;
+  background-color: #007bff;
   color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.message-input button:hover {
+  background-color: #0056b3;
 }
