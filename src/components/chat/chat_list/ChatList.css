@@ -1,41 +1,63 @@
 /* 왼쪽 채팅 방 리스트 */
 .chat-list {
-    width: 250px;
-    background-color: #f4f4f4;
-    padding: 20px;
-    border-right: 1px solid #ccc;
-    overflow-y: auto;
-  }
-  
-  .chat-list ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .chat-list li {
-    padding: 10px 15px;
-    cursor: pointer;
-    border-bottom: 1px solid #ccc;
-    transition: background-color 0.2s ease;
-  }
-  
-  .chat-list li:hover {
-    background-color: #e0e0e0;
-  }
-  
-  .chat-list button {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  .chat-list button:hover {
-    background-color: #0056b3;
-  }
+  width: 250px;
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-right: 1px solid #ccc;
+  overflow-y: auto;
+}
+
+.chat-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.chat-list li {
+  padding: 10px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #ccc;
+  transition: background-color 0.2s ease;
+}
+
+/* 선택된 채팅방의 배경색 */
+.chat-list li.selected {
+  background-color: #edf3ff; /* 선택된 상태의 배경색 */
+}
+
+.chat-list li:hover {
+  background-color: #e0e0e0;
+}
+
+.chat-list button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #525d71;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.chat-list button:hover {
+  background-color: #97c6f8;
+}
+
+.chat-list div {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-list div:hover {
+  background-color: #f0f0f0;
+}
+
+.chat-list input {
+  width: 100%;
+  padding: 5px;
+}

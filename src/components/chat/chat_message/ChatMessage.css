@@ -1,21 +1,32 @@
+.message-container {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.message-container.input {
+  justify-content: flex-end;
+}
+
+.message-container.output {
+  justify-content: flex-start;
+}
+
 .message {
-    margin-bottom: 15px;
-    max-width: 70%;
-    word-wrap: break-word;
-  }
-  
-  .message.input {
-    align-self: flex-end;
-    text-align: right;
-    background-color: #e0f7fa;
-    padding: 10px 15px;
-    border-radius: 10px;
-  }
-  
-  .message.output {
-    align-self: flex-start;
-    text-align: left;
-    background-color: #f1f8e9;
-    padding: 10px 15px;
-    border-radius: 10px;
-  }
+  margin-bottom: 15px;
+  word-wrap: break-word;
+  padding: 10px 15px;
+  border-radius: 10px;
+  width: fit-content;
+}
+
+.message.input {
+  align-self: flex-start;
+  text-align: right;
+  background-color: #feffc2;
+}
+
+.message.output {
+  align-self: flex-start;
+  text-align: left;
+  background-color: #ffffff;
+}

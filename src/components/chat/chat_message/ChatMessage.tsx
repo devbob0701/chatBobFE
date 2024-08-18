@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import './ChatMessage.css'
+import './ChatMessage.css';
 
 interface MessageProps {
     message: {
@@ -11,12 +11,14 @@ interface MessageProps {
 
 const Message: React.FC<MessageProps> = ({ message }) => {
     return (
-        <div className={`message ${message.type}`}>
-            {message.type === 'output' ? (
-                <ReactMarkdown>{message.content}</ReactMarkdown>
-            ) : (
-                <span>{message.content}</span>
-            )}
+        <div className={`message-container ${message.type}`}>
+            <div className={`message ${message.type}`}>
+                {message.type === 'output' ? (
+                    <ReactMarkdown>{message.content}</ReactMarkdown>
+                ) : (
+                    <span>{message.content}</span>
+                )}
+            </div>
         </div>
     );
 };

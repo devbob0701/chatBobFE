@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, useRef } from 'react';
 import ChatList from './chat_list/ChatList';
 import ChatWindow from './chat_window/ChatWindow';
 import MessageInput from './message_input/MessageInput';
-import './Chat.css'
+import './Chat.css';
+import { ChatApi } from '../../api/ChatApi';
 
 interface Message {
     type: 'input' | 'output';
@@ -11,25 +11,67 @@ interface Message {
 }
 
 const Chat: React.FC = () => {
-    const [sessions, setSessions] = useState<{ id: string; name: string }[]>([
-        { id: 'session_1', name: 'Chat 1' }
-    ]);
-    const [currentSessionId, setCurrentSessionId] = useState<string>('session_1');
-    const [messages, setMessages] = useState<{ [key: string]: Message[] }>({
-        session_1: [
-            { type: 'input', content: '마이데이터 api 조회를 하기위한 토큰은 어떻게 발급 받아?' },
-            { type: 'output', content: '마이데이터 API를 조회하기 위한 토큰을 발급받는 과정은 일반적으로...' }
-        ]
-    });
+    const [sessions, setSessions] = useState<{ session_id: string; session_name: string }[]>([]);
+    const [currentSessionId, setCurrentSessionId] = useState<string>('');
+    const [messages, setMessages] = useState<{ [key: string]: Message[] }>({});
     const [newMessage, setNewMessage] = useState<string>('');
+    const userId = 'user_1';
+    const initialLoad = useRef(true);
 
-    const handleSessionSelect = (sessionId: string) => {
+    useEffect(() => {
+        const fetchChatSessions = async () => {
+            const response = await ChatApi.getChatSessions(userId);
+            let sessions = response;
+            let currentSessionId;
+    
+            if (!sessions || sessions.length === 0) {
+                currentSessionId = `session_1_${userId}`;
+                sessions = [{ session_id: currentSessionId, session_name: 'Chat 1' }];
+                setMessages({ [currentSessionId]: [] });
+            } else {
+                currentSessionId = sessions[sessions.length - 1].session_id;
+                setCurrentSessionId(currentSessionId);
+                handleSessionSelect(currentSessionId);
+            }
+    
+            setSessions(sessions.reverse());
+        };
+    
+        if (initialLoad.current) {
+            fetchChatSessions();
+            initialLoad.current = false;
+        }
+    }, [userId]);
+
+    const handleSessionSelect = async (sessionId: string) => {
         setCurrentSessionId(sessionId);
+        if (!messages[sessionId]) {
+            const sessionMessages = await ChatApi.getChatMessages(sessionId);
+
+            setMessages(prevMessages => ({
+                ...prevMessages,
+                [sessionId]: [
+                    ...(prevMessages[sessionId] || []), // 기존 메시지들을 유지
+                    ...sessionMessages.flatMap((msg: any) => [
+                        { type: 'input', content: msg.input },
+                        { type: 'output', content: msg.output }
+                    ])
+                ]
+            }));
+        }
     };
 
     const handleNewSession = () => {
-        const newSessionId = `session_${sessions.length + 1}`;
-        setSessions([...sessions, { id: newSessionId, name: `Chat ${sessions.length + 1}` }]);
+        // 현재 보고 있는 채팅방에 메세지가 없는 경우 새 채팅방을 만들어도 동작을 안하도록 처리
+        if (!messages[currentSessionId] || messages[currentSessionId].length == 0) {
+            return;
+        }
+
+        const newSessionId = `session_${sessions.length + 1}_${userId}`;
+        const newSessionName = `Chat ${sessions.length + 1}`;
+        
+        // 세션을 맨 앞에 추가
+        setSessions([{ session_id: newSessionId, session_name: newSessionName }, ...sessions]);
         setMessages({ ...messages, [newSessionId]: [] });
         setCurrentSessionId(newSessionId);
     };
@@ -39,39 +81,40 @@ const Chat: React.FC = () => {
     };
 
     const handleSendMessage = async () => {
+        console.log(newMessage)
         if (!newMessage.trim()) return;
-    
+
+        const currentSessionName = sessions.find(session => session.session_id === currentSessionId)?.session_name || '';
+
         setMessages(prevMessages => ({
             ...prevMessages,
             [currentSessionId]: [...(prevMessages[currentSessionId] || []), { type: 'input', content: newMessage }]
         }));
-    
-        setNewMessage(''); // 입력 필드 초기화
-    
-        try {
-            const response = await axios.post('http://localhost:8000/chat', {
-                session_id: currentSessionId,
-                question_message: newMessage,
-            });
-    
-            const answer = response.data.answer.output;
-    
-            setMessages(prevMessages => ({
-                ...prevMessages,
-                [currentSessionId]: [...(prevMessages[currentSessionId] || []), { type: 'output', content: answer }]
-            }));
-            
-        } catch (error) {
-            console.error('Error sending message:', error);
-        }
+
+        setNewMessage('');
+        
+        const response = await ChatApi.sendMessage(
+            userId,
+            currentSessionId,
+            currentSessionName,
+            newMessage
+        );
+
+        const answer = response.answer.output;
+
+        setMessages(prevMessages => ({
+            ...prevMessages,
+            [currentSessionId]: [...(prevMessages[currentSessionId] || []), { type: 'output', content: answer }]
+        }));
     };
 
     return (
         <div className="chat">
             <ChatList 
                 sessions={sessions} 
+                currentSessionId={currentSessionId}  // 현재 선택된 세션 ID를 전달
                 onSessionSelect={handleSessionSelect} 
-                onNewSession={handleNewSession} 
+                onNewSession={handleNewSession}
             />
             <div className="chat-container">
                 <ChatWindow messages={messages[currentSessionId] || []} />

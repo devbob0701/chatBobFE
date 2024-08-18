@@ -15,12 +15,12 @@
   }
   
   .message-input input:focus {
-    border-color: #007bff;
+    border-color: #525d71;
   }
   
   .message-input button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #525d71;
     color: white;
     border: none;
     border-radius: 5px;
@@ -29,5 +29,6 @@
   }
   
   .message-input button:hover {
-    background-color: #0056b3;
+    background-color: #ffe300;
+    color: black
   }
