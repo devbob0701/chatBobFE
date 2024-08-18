@@ -1,12 +1,9 @@
-// src/common/api-client.tsx
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000';
-
 export const apiClient = {
-    post: async (endpoint: string, data: any) => {
+    post: async (url: string, endpoint: string, data: any) => {
         try {
-            const response = await axios.post(`${API_BASE_URL}${endpoint}`, data);
+            const response = await axios.post(`${url}${endpoint}`, data);
             return response.data;
         } catch (error) {
             console.error(`POST ${endpoint} failed`, error);
@@ -14,9 +11,9 @@ export const apiClient = {
         }
     },
 
-    get: async (endpoint: string, params: any) => {
+    get: async (url: string, endpoint: string, params: any) => {
         try {
-            const response = await axios.get(`${API_BASE_URL}${endpoint}`, { params });
+            const response = await axios.get(`${url}${endpoint}`, { params });
             return response.data;
         } catch (error) {
             console.error(`GET ${endpoint} failed`, error);
