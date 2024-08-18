@@ -1,0 +1,6 @@
+/* 전체 레이아웃 */
+.chat {
+    display: flex;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+  }

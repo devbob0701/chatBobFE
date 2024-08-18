@@ -1,5 +1,6 @@
 import React from 'react';
-import Message from './Message';
+import Message from '../chat_message/ChatMessage';
+import './ChatWindow.css'
 
 interface Message {
     type: 'input' | 'output';

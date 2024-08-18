@@ -1,4 +1,5 @@
 import React from 'react';
+import './ChatList.css'
 
 interface ChatListProps {
     sessions: { id: string; name: string }[];
