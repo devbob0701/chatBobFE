@@ -108,3 +108,6 @@ src
 1. `npm install` 명령어로 필요한 패키지를 설치합니다.
 2. `npm start` 명령어로 프로젝트를 실행합니다.
 3. 브라우저에서 `http://localhost:3000`에 접속하여 서비스를 확인합니다.
+
+## 실행 예시
+![스크린샷 2024-08-18 오후 8 52 31](https://github.com/user-attachments/assets/13e2c233-e4bb-456f-b512-d2a6bbcff28a)
